@@ -1,0 +1,45 @@
+image: node:12
+
+stages:
+  - build
+
+build:
+  stage: build
+  services:
+    - mysql:5.7
+  variables:
+    # https://hub.docker.com/_/mysql/
+    # https://dev.mysql.com/doc/refman/5.7/en/environment-variables.html
+    MYSQL_ROOT_PASSWORD: 'root'
+    MYSQL_USER: 'myUser'
+    MYSQL_PASSWORD: 'myUserPassword'
+    MYSQL_HOST: 'mysql'
+    MYSQL_DATABASE: 'CollectionTest'
+    MYSQL_TCP_PORT: '3306'
+  only:
+    changes:
+      - src/**/*.{js,json,ts}
+      - tests/**/*.{js,json,ts}
+      - Dockerfile
+      - package-lock.json
+      - .gitlab-ci.yml
+      - .npmrc
+  script:
+    - echo "--------------------- check variables ---------------------"
+    - echo "MYSQL_ROOT_PASSWORD = $MYSQL_ROOT_PASSWORD"
+    - echo "MYSQL_USER = $MYSQL_USER"
+    - echo "MYSQL_PASSWORD = $MYSQL_PASSWORD"
+    - echo "MYSQL_HOST = $MYSQL_HOST"
+    - echo "MYSQL_DATABASE = $MYSQL_DATABASE "
+    - echo "MYSQL_TCP_PORT = $MYSQL_TCP_PORT"
+    - echo "--------------------- install mysql client ---------------------"
+    - apt update && apt-get install -y mysql-client
+    - echo "------------------------- mysql ping test -------------------------"
+    - chmod -R +x ./scripts
+    - ./scripts/databaseCheck.sh
+    - echo "---------------- npm install & lint & test ----------------"
+    - export NODE_ENV=test-ci
+    - npm install
+    - npm run lint
+    - npm run test-ci
+    - echo "------------------------------------------------------------"
