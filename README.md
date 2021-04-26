@@ -1,2 +1,2 @@
 # cachingModule
-if same heavy traffic comes in server with cache miss, how can i control these requests with non-blocking?
+if same heavy traffic request come in server with cache-miss, how can control these requests with non-blocking?
