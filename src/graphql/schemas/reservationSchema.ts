@@ -15,13 +15,13 @@ export const reservationTypeDef = gql`
     type Reservation {
         id: ID!
 
-        name: String!
+        name: String!                           
 
         createdAt: Instant!
     }
 
     extend type ReservationContainer {
-        reservation(id: ID!): Reservation!
+        reservation(id: ID!): String!
         reservations(): [Reservation!]!
     }
     extend type Mutation {
@@ -31,7 +31,7 @@ export const reservationTypeDef = gql`
 
 export const reservationResolvers = {
   ReservationContainer: {
-    reservation: async (_: unknown, args: { id: string }): Promise<Reservation> => {
+    reservation: async (_: unknown, args: { id: string }): Promise<string> => {
       const reservation = await reservationServiceInstance.find(Number(args.id));
       return reservation;
     },
