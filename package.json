@@ -4,7 +4,9 @@
     "dev": "nodemon",
     "test": "npx ts-node ./tests/initDB.ts && jest --runInBand --coverage",
     "lint": "eslint --ext .ts ./src",
-    "test-ci": "npx ts-node ./tests/initDB.ts && jest --detectOpenHandles --forceExit"
+    "easygraphql-load-tester": "artillery run --output report.json ./tests/artillery.yml",
+    "test-ci": "npx ts-node ./tests/initDB.ts && jest --detectOpenHandles --forceExit",
+    "report": "artillery report --output report.html report.json"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
     "apollo-server-express": "^2.21.0",
     "config": "^3.3.3",
     "dataloader": "^2.0.0",
+    "easygraphql-load-tester": "^2.0.5",
     "express": "^4.17.1",
     "graphql": "^15.5.0",
     "ioredis": "^4.24.5",
@@ -34,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "apollo-server-testing": "^2.21.0",
+    "artillery": "^1.7.2",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",

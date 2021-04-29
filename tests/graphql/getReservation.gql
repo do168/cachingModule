@@ -1,0 +1,5 @@
+query GET_RESERVATION($id: ID!) {
+  reservation {
+    reservation(id: $id)
+  }
+}
