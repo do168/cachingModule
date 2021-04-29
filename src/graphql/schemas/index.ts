@@ -1,5 +1,7 @@
 import { buildFederatedSchema } from '@apollo/federation';
 import { gql } from 'apollo-server-express';
+import { commonResolvers, commonTypeDef } from './commonSchema';
+import { reservationResolvers, reservationTypeDef } from './reservationSchema';
 
 const baseTypeDef = gql`
   type ReservationContainer {
@@ -17,7 +19,7 @@ const baseTypeDef = gql`
 
 const resolvers = {
   Query: {
-    collection: () => ({}),
+    reservation: () => ({}),
   },
   Mutation: {
     _empty: () => 'ping',
@@ -27,4 +29,8 @@ const resolvers = {
   },
 };
 
-export const schema = buildFederatedSchema([{ typeDefs: baseTypeDef, resolvers }]);
+export const schema = buildFederatedSchema([
+  { typeDefs: baseTypeDef, resolvers },
+  { typeDefs: commonTypeDef, resolvers: commonResolvers },
+  { typeDefs: reservationTypeDef, resolvers: reservationResolvers as any },
+]);

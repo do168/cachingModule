@@ -20,7 +20,7 @@ export class ReservationService {
   public async find(id: number): Promise<string> {
     try {
       const reservation = await this.findReservation(id);
-      redisService.close();
+      // redisService.close();
       return reservation;
     } catch (e) {
       console.error('find ERROR : ', e);
@@ -41,7 +41,7 @@ export class ReservationService {
       const dbReservation = await this.repository.findById(id);
       await redisService.setCache(id.toString(), JSON.stringify(dbReservation.name), '');
       console.log(`UNCACHED ${id} RESERVATION`);
-      return JSON.stringify(dbReservation);
+      return JSON.stringify(dbReservation.name);
     } catch (e) {
       console.error('getProductIds ERROR : ', e);
       throw new Error();
@@ -55,8 +55,9 @@ export class ReservationService {
    */
   private async getCachedReservation(id: number): Promise<string | null> {
     const cachedReservation = await redisService.getCache(id.toString(), '');
-
+    console.log(cachedReservation);
     if (!cachedReservation) {
+      console.log(`캐시에 ${id}가 존재하지 않습니다`);
       return null;
     }
 

@@ -1,5 +1,7 @@
 import Redis from 'ioredis';
 import config from 'config';
+import util from 'util';
+import { ClientRequest } from 'node:http';
 
 export interface CacheOption {
   host: string;
@@ -9,7 +11,7 @@ export interface CacheOption {
 }
 
 class RedisService {
-  private readonly redisClient: Redis.Cluster;
+  private readonly redisClient: Redis.Redis;
   private readonly baseKey?: string;
   private readonly redisTTL: number;
 
@@ -23,26 +25,16 @@ class RedisService {
       this.redisTTL = options.ttl;
     }
 
-    this.redisClient = new Redis.Cluster(
-      [
-        {
-          host: options.host,
-          port: options.port,
-        },
-      ],
-      {
-        clusterRetryStrategy: function (times) {
-          const delay = Math.min(times * 50, 2000);
-          return delay;
-        },
-      },
-    );
+    this.redisClient = new Redis({
+      host: options.host,
+      port: options.port,
+    });
   }
 
   public async getCache(key: string, prefix: string): Promise<any | null> {
-    const cache = await this.redisClient.get(this.createRealKey(key, prefix));
-    if (cache) {
-      return JSON.parse(cache);
+    const result = await this.redisClient.get(this.createRealKey(key, prefix));
+    if (result) {
+      return result;
     }
     return null;
   }
@@ -57,7 +49,7 @@ class RedisService {
   }
   public close(): void {
     if (this.redisClient) {
-      this.redisClient.disconnect();
+      this.redisClient.quit();
     }
   }
 }
