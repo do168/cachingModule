@@ -2,7 +2,7 @@
   {
     "name": "GET_RESERVATION",
     "operation": "query",
-    "query": "query GET_RESERVATION($id: ID!) {\r\n    reservation {\r\n      reservation(id: $id)\r\n    }\r\n  }",
+    "query": "query GET_RESERVATION($id: ID!) {\n  reservation {\n    reservation(id: $id)\n  }\n}\n",
     "variables": { "id": 1 }
   }
 ]
