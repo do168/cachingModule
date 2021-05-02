@@ -42,44 +42,16 @@ if same heavy traffic request come in server with cache-miss, how can control th
 | ---------- | --------- | --------- | --------- | ------------ | -------- |
 | 48:00.2 | [root] @ localhost [127.0.0.1] | 132 | 1 | Connect | root@localhost on mydb using TCP/IP |
 | 48:00.2 | [root] @ localhost [127.0.0.1] | 133 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.2 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n *\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.2 | [root] @ localhost [127.0.0.1] | 133 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
+| 48:00.2 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n \*\n FROM\n Reservation\n WHERE\n id = 1 |
+| 48:00.2 | [root] @ localhost [127.0.0.1] | 133 | 1 | Query | SELECT\n *\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 137 | 1 | Connect | root@localhost on mydb using TCP/IP |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 133 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 137 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 141 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 139 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 138 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 135 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 135 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 134 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 140 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 133 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 137 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
+| ... | ... | ... | ... | ... | ... |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 141 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 139 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 138 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 135 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 136 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 134 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 140 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 133 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 137 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 141 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 139 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 138 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 135 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 136 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 134 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 140 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 137 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 139 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 138 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 136 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n \_\n FROM\n Reservation\n WHERE\n id = 1 |
+| ... | ... | ... | ... | ... | ... |
 
 ## 개선 후
 
