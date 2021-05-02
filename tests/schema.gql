@@ -1,0 +1,31 @@
+type _Service {
+  sdl: String
+}
+
+scalar Instant
+
+type Mutation {
+  _empty: String!
+  createReservation(param: ReservationCreateParam!): Reservation!
+}
+
+type Query {
+  _service: _Service!
+  reservation: ReservationContainer!
+}
+
+type Reservation {
+  id: ID!
+  name: String!
+  createdAt: Instant!
+}
+
+type ReservationContainer {
+  _empty: String!
+  reservation(id: ID!): String!
+  reservations: [Reservation!]!
+}
+
+input ReservationCreateParam {
+  name: String!
+}

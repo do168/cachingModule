@@ -1,0 +1,8 @@
+[
+  {
+    "name": "GET_RESERVATION",
+    "operation": "query",
+    "query": "query GET_RESERVATION($id: ID!) {\n  reservation {\n    reservation(id: $id)\n  }\n}\n",
+    "variables": { "id": 1 }
+  }
+]

@@ -1,0 +1,14 @@
+server:
+  port: 3000
+
+database:
+  host: 'localhost'
+  user: 'root'
+  password: '4531'
+  database: 'mydb'
+
+redis:
+  host: localhost
+  port: 6379
+  baseKey: cacheing/sameRequest
+  ttl: 300
