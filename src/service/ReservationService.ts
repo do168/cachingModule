@@ -2,6 +2,8 @@ import { Reservation } from '../model/reservation';
 import { ReservationRepository } from '../repository/ReservationRepository';
 import { redisService } from '../service/RedisService';
 import Redis from 'ioredis';
+
+const DB_SEARCHING = 'DB Searching';
 export class ReservationService {
   repository: ReservationRepository;
 
@@ -33,13 +35,21 @@ export class ReservationService {
       // 캐시 조회
       const cachedReservation = await this.getCachedReservation(id);
       if (cachedReservation) {
-        console.log(`CACHED ${id} reservation`);
-        return cachedReservation;
+        if (await redisService.isEqual(cachedReservation, DB_SEARCHING)) {
+          console.log(`i'm waiting`);
+          const fromPub = await redisService.sub(id.toString());
+          return fromPub;
+        } else {
+          // console.log(`CACHED ${id} reservation`);
+          return cachedReservation;
+        }
       }
 
+      await redisService.setCache(id.toString(), DB_SEARCHING, '');
       // 캐시 미스 시 DB 조회 후 캐시에 저장
       const dbReservation = await this.repository.findById(id);
       await redisService.setCache(id.toString(), JSON.stringify(dbReservation.name), '');
+      await redisService.pub(id.toString(), JSON.stringify(dbReservation.name));
       console.log(`UNCACHED ${id} RESERVATION`);
       return JSON.stringify(dbReservation.name);
     } catch (e) {
@@ -55,7 +65,7 @@ export class ReservationService {
    */
   private async getCachedReservation(id: number): Promise<string | null> {
     const cachedReservation = await redisService.getCache(id.toString(), '');
-    console.log(cachedReservation);
+    // console.log(cachedReservation);
     if (!cachedReservation) {
       console.log(`캐시에 ${id}가 존재하지 않습니다`);
       return null;

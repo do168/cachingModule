@@ -269,3 +269,7 @@ tags
 [._]*.un~
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,vim,macos,node
+
+easygraphql-load-tester-queries.json
+
+report.json

@@ -2,7 +2,7 @@ config:
   target: 'http://localhost:3000'
   phases:
     - duration: 1
-      arrivalRate: 500
+      arrivalRate: 2000
   processor: './index.js'
 scenarios:
   - name: 'GraphQL Query load test'
