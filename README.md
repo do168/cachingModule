@@ -38,11 +38,11 @@ if same heavy traffic request come in server with cache-miss, how can control th
 ## 기존 방식
 
 1초에 100개의 요청이 들어온 상황을 테스트한 경우 132 ~ 141, 10개의 요청이 DB로 있었다. 즉 첫번째 요청을 제외한 9개의 요청도 cost를 사용하여 커넥션을 맺고 DB와 연결한 것이다
-| event_time | user_host | thread_id | server_id | command_type | argument |
+| event*time | user_host | thread_id | server_id | command_type | argument |
 | ---------- | --------- | --------- | --------- | ------------ | -------- |
 | 48:00.2 | [root] @ localhost [127.0.0.1] | 132 | 1 | Connect | root@localhost on mydb using TCP/IP |
 | 48:00.2 | [root] @ localhost [127.0.0.1] | 133 | 1 | Connect | root@localhost on mydb using TCP/IP |
-| 48:00.2 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
+| 48:00.2 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n *\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.2 | [root] @ localhost [127.0.0.1] | 133 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 137 | 1 | Connect | root@localhost on mydb using TCP/IP |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
@@ -79,4 +79,13 @@ if same heavy traffic request come in server with cache-miss, how can control th
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 139 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 138 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
 | 48:00.3 | [root] @ localhost [127.0.0.1] | 136 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
-| 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n _\n FROM\n Reservation\n WHERE\n id = 1 |
+| 48:00.3 | [root] @ localhost [127.0.0.1] | 132 | 1 | Query | SELECT\n \_\n FROM\n Reservation\n WHERE\n id = 1 |
+
+## 개선 후
+
+| event_time                  | user_host                      | thread_id | server_id | command_type | argument                                          |
+| --------------------------- | ------------------------------ | --------- | --------- | ------------ | ------------------------------------------------- |
+| 2021-05-02T06:20:36.124165Z | [root] @ localhost [127.0.0.1] | 22        | 1         | Connect      | root@localhost on mydb using TCP/IP               |
+| 2021-05-02T06:20:36.131295Z | [root] @ localhost [127.0.0.1] | 22        | 1         | Query        | SELECT\n \_\n FROM\n Reservation\n WHERE\n id = 1 |
+| 2021-05-02T06:20:36.124165Z | [root] @ localhost [127.0.0.1] | 23        | 1         | Connect      | root@localhost on mydb using TCP/IP               |
+| 2021-05-02T06:20:36.131295Z | [root] @ localhost [127.0.0.1] | 23        | 1         | Query        | SELECT\n \_\n FROM\n Reservation\n WHERE\n id = 1 |
